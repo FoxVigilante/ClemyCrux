@@ -1,0 +1,17 @@
+# Description: A highly customizable Wayland compositor
+# URL: https://github.com/vaxry/hyprland
+# Maintainer: Clementine
+# Depends on: binutils glibc git libdrm gcc mesa glslang wayland-protocols wayland-scanner aquamarine cairo
+
+name=hyprland
+version=0.55.2
+release=1
+source=(http://deb.debian.org/debian/pool/main/h/hyprland/hyprland_$version+ds.orig.tar.xz)
+renames=($name#$version-$release.tar.gz)
+
+build () {
+    cd hyprland-source
+    cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DNO_SYSTEMD:STRING=true -DNO_UWSM:STRING=true -DCMAKE_INSTALL_PREFIX:PATH=/usr -B ./build
+    cmake --build ./build --config Release --target all
+    sudo cmake --install ./build
+}
